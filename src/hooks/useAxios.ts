@@ -8,9 +8,13 @@ interface IUseAxios<T> {
   errorMsg: string;
 }
 
-export const useAxios = <T>(url: string, customAxios?: AxiosInstance): IUseAxios<T> => {
-const [data, setData] = useState<T>();
-  const [errorMsg, setErrorMsg] = useState<string>('');
+export const useAxios = <T, P>(
+  url: string,
+  params: P | {} = {},
+  customAxios?: AxiosInstance
+): IUseAxios<T> => {
+  const [data, setData] = useState<T>();
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const [isloading, setloading] = useState(true);
   const http: AxiosInstance = customAxios ? customAxios : axios;
 
@@ -21,7 +25,7 @@ const [data, setData] = useState<T>();
   const getResponsData = async () => {
     try {
       setloading(true);
-      const request = await http.get<T>(url);
+      const request = await http.get<T>(url, { params });
       setData(request.data);
     } catch (e: any) {
       setErrorMsg(e.message);
