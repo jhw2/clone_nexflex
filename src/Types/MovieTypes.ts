@@ -1,25 +1,9 @@
 import { AxiosError } from "axios";
-export interface IMovieInfo {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: string;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
 export interface IMovieLists_Response extends AxiosError {
   maximum: string;
   minimum: string;
   page: number;
-  results: IMovieInfo[];
+  results: IMovidetail[];
 }
 
 export interface IMovidetail {
@@ -29,7 +13,7 @@ export interface IMovidetail {
   budget: number;
   genres: Genre[];
   homepage: string;
-  id: number;
+  id: string;
   imdb_id: string;
   original_language: string;
   original_title: string;
@@ -46,6 +30,7 @@ export interface IMovidetail {
   tagline: string;
   title: string;
   video: boolean;
+  videos: Videos;
   vote_average: number;
   vote_count: number;
 }
@@ -71,4 +56,21 @@ export interface SpokenLanguage {
   english_name: string;
   iso_639_1: string;
   name: string;
+}
+export interface Videos {
+  results: VideoResults[];
+  vote_average: number;
+  vote_count: number;
+}
+export interface VideoResults {
+  id: string;
+  iso_639_1: string;
+  iso_3166_1: string;
+  key: string;
+  name: string;
+  official: boolean;
+  published_at: string;
+  site: string;
+  size: number;
+  type: string;
 }
