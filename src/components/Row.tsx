@@ -4,6 +4,7 @@ import { useAxios } from "../hooks/useAxios";
 import { IMovieLists_Response } from "../Types/MovieTypes";
 import "./Row.css";
 import { Loding } from "./share/Loading";
+import { Image } from './sections/Image';
 
 interface IRow {
   title: string;
@@ -35,22 +36,7 @@ export const Row = memo(({ title, id, fetchUrl, isLargeRow }: IRow) => {
           <span className="arrow">&lt;</span>
         </div>
         <div id={id} className="row__posters">
-          {movies?.map((movie) => {
-            const imgUrl = isLargeRow ? movie.poster_path : movie.backdrop_path;
-            const clss = isLargeRow
-              ? "row__poster row__posterLarge"
-              : "row__poster";
-            return (
-              <img
-                key={movie.id}
-                className={clss}
-                src={`https://image.tmdb.org/t/p/original/${imgUrl}`}
-                data-large={isLargeRow}
-                alt={movie.title}
-                loading="lazy"
-              />
-            );
-          })}
+          {movies?.map((movie) => <Image key={movie.id} movie={movie} isLargeRow={!!isLargeRow} />)}
         </div>
         <div className="slider__arrow-right" onClick={slideGoRight}>
           <span className="arrow">&gt;</span>
