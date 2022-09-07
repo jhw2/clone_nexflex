@@ -18,6 +18,6 @@ export const Banner = () => {
   const movieId = !movieList ? "" : movieList?.results[randomNum]?.id;
 
   return (
-    <header>{isOk && movieList && <Banner_content movieId={movieId} />}</header>
+    <header className="banner">{isOk && movieList && <Banner_content movieId={movieId} />}</header>
   );
 };
