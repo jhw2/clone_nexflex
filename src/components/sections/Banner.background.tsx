@@ -7,8 +7,8 @@ export const Banner_background = memo(
   ({ children, imgUrl }: IBanner_background) => {
     return (
       <div
-        className="banner"
         style={{
+          height: '100%',
           backgroundImage: `url("https://image.tmdb.org/t/p/original/${imgUrl}")`,
           backgroundPosition: "top center",
           backgroundSize: "cover",
