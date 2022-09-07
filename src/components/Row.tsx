@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import axios from "../api/axios";
 import { useAxios } from "../hooks/useAxios";
 import { IMovieLists_Response } from "../Types/MovieTypes";
@@ -17,13 +17,21 @@ export const Row = memo(({ title, id, fetchUrl, isLargeRow }: IRow) => {
     any
   >(fetchUrl, {}, axios);
   const movies = data?.results;
+  const slideGoLeft = useCallback(() => {
+    const scrollContainer = document.getElementById(id);
+    if (scrollContainer) scrollContainer.scrollLeft -= window.innerWidth;
+  }, []);
+  const slideGoRight = useCallback(() => {
+    const scrollContainer = document.getElementById(id);
+    if (scrollContainer) scrollContainer.scrollLeft += window.innerWidth;
+  }, []);
   return isloading ? (
     <Loding />
   ) : (
     <section className="row">
       <h2>{title}</h2>
       <div className="slider">
-        <div className="slider__arrow-left">
+        <div className="slider__arrow-left" onClick={slideGoLeft}>
           <span className="arrow">&lt;</span>
         </div>
         <div id={id} className="row__posters">
@@ -44,11 +52,11 @@ export const Row = memo(({ title, id, fetchUrl, isLargeRow }: IRow) => {
             );
           })}
         </div>
-        <div className="slider__arrow-right">
+        <div className="slider__arrow-right" onClick={slideGoRight}>
           <span className="arrow">&gt;</span>
         </div>
       </div>
     </section>
   );
 });
-Row.displayName = 'Row';
+Row.displayName = "Row";
