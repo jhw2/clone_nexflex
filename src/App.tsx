@@ -1,6 +1,7 @@
 import { requests } from "./api/request";
 import "./App.css";
 import { Banner } from "./components/Banner";
+import { Footer } from "./components/Footer";
 import { Nav } from "./components/Nav";
 import { Row } from "./components/Row";
 
@@ -25,6 +26,7 @@ function App() {
       <Row title="Comedy Movie" id="CM" fetchUrl={requests.fetchComedyMovies} />
       <Row title="Horror Movie" id="HM" fetchUrl={requests.fetchHorroryMovies} />
       <Row title="Romance Movie" id="RM" fetchUrl={requests.fetchRomanceMovies} />
+      <Footer />
     </div>
   );
 }
