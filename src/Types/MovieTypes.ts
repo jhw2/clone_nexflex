@@ -22,13 +22,15 @@ export interface IMovidetail {
   poster_path: string;
   production_companies: ProductionCompany[];
   production_countries: ProductionCountry[];
-  release_date: Date;
+  release_date: String;
+  first_air_date: String;
   revenue: number;
   runtime: number;
   spoken_languages: SpokenLanguage[];
   status: string;
   tagline: string;
   title: string;
+  name: string;
   video: boolean;
   videos: Videos;
   vote_average: number;
