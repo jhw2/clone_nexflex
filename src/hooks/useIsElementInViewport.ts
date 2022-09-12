@@ -3,10 +3,10 @@ interface IuseIsElementInViewport<T> {
   isVisible: boolean;
   elementRef: RefObject<T>;
 }
-export const useIsElementInViewport = <T>(
+export const useIsElementInViewport = <T extends HTMLElement>(
   rootMargin: number = 0
 ): IuseIsElementInViewport<T> => {
-  const elementRef = useRef<any>(null);
+  const elementRef = useRef<T>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
   useEffect(() => {
     const options = {
@@ -15,7 +15,6 @@ export const useIsElementInViewport = <T>(
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries;
-        console.log(entry.isIntersecting)
         if (!isVisible) setVisible(entry.isIntersecting);
       },
       options
