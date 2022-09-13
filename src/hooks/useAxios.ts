@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface IUseAxios<T> {
   data: T | undefined;
@@ -20,9 +20,9 @@ export const useAxios = <T, P>(
 
   useEffect(() => {
     getResponsData();
-  }, []);
+  }, [url]);
 
-  const getResponsData = async () => {
+  const getResponsData = useCallback(async () => {
     try {
       setloading(true);
       const request = await http.get<T>(url, { params });
@@ -32,7 +32,7 @@ export const useAxios = <T, P>(
     } finally {
       setloading(false);
     }
-  };
+  }, [url, params]);
 
   return {
     data,
