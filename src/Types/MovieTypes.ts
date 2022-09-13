@@ -10,6 +10,7 @@ export interface IMovidetail {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: null;
+  media_type: string;
   budget: number;
   genres: Genre[];
   homepage: string;
