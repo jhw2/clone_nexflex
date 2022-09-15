@@ -5,12 +5,13 @@ import { useAxios } from "../../hooks/useAxios";
 import { Error } from "../../components/share/Error";
 import "./SearchPage.css";
 import { IMovidetail, IMovieLists_Response } from "../../Types/MovieTypes";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export const SearchPage = () => {
   const navigate = useNavigate();
   const useQuery = () => new URLSearchParams(useLocation().search);
   let query = useQuery();
-  const searchTerm = query.get("q");
+  const searchTerm = useDebounce(query.get("q") ?? '', 500);
   const {
     isloading,
     data,
@@ -21,7 +22,6 @@ export const SearchPage = () => {
     axios
   );
   const searchResults = data?.results;
-  console.log(searchResults);
   return errorMsg ? (
     <Error msg={errorMsg} />
   ) : searchResults && searchResults?.length > 0 ? (
