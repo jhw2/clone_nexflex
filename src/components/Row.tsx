@@ -4,7 +4,7 @@ import { useAxios } from "../hooks/useAxios";
 import { IMovieLists_Response } from "../Types/MovieTypes";
 import "./Row.css";
 import { Loding } from "./share/Loading";
-import { Image } from './sections/Image';
+import { ModalImage } from './sections/ModalImage';
 
 interface IRow {
   title: string;
@@ -36,7 +36,7 @@ export const Row = memo(({ title, id, fetchUrl, isLargeRow }: IRow) => {
           <span className="arrow">&lt;</span>
         </div>
         <div id={id} className="row__posters">
-          {movies?.map((movie) => <Image key={movie.id} movie={movie} isLargeRow={!!isLargeRow} />)}
+          {movies?.map((movie) => <ModalImage key={movie.id} movie={movie} isLargeRow={!!isLargeRow} />)}
         </div>
         <div className="slider__arrow-right" onClick={slideGoRight}>
           <span className="arrow">&gt;</span>

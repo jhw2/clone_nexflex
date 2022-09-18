@@ -4,19 +4,16 @@ import axios from "../../api/axios";
 import { useAxios } from "../../hooks/useAxios";
 import { Error } from "../../components/share/Error";
 import "./SearchPage.css";
-import { IMovidetail, IMovieLists_Response } from "../../Types/MovieTypes";
+import { IMovieLists_Response } from "../../Types/MovieTypes";
 import { useDebounce } from "../../hooks/useDebounce";
+import { Image } from "../../components/sections/Image";
 
 export const SearchPage = () => {
   const navigate = useNavigate();
   const useQuery = () => new URLSearchParams(useLocation().search);
   let query = useQuery();
-  const searchTerm = useDebounce(query.get("q") ?? '', 500);
-  const {
-    isloading,
-    data,
-    errorMsg,
-  } = useAxios<IMovieLists_Response, null>(
+  const searchTerm = useDebounce(query.get("q") ?? "", 500);
+  const { isloading, data, errorMsg } = useAxios<IMovieLists_Response, null>(
     `/search/multi?include_adult=false&query=${searchTerm}`,
     {},
     axios
@@ -36,10 +33,10 @@ export const SearchPage = () => {
                 onClick={() => navigate(`/${movie.id}`)}
                 className="movie__column-poster"
               >
-                <img
+                <Image
                   src={movieImageUrl}
-                  alt="movie"
-                  className="movie__poster"
+                  clss={"movie__poster"}
+                  alt={movie.title ?? movie.name}
                 />
               </div>
             </div>
