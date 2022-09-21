@@ -1,10 +1,16 @@
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 import axios from "../api/axios";
 import { useAxios } from "../hooks/useAxios";
 import { IMovieLists_Response } from "../Types/MovieTypes";
 import "./Row.css";
 import { Loding } from "./share/Loading";
-import { ModalImage } from './sections/ModalImage';
+import { ModalImage } from "./sections/ModalImage";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 interface IRow {
   title: string;
@@ -12,37 +18,57 @@ interface IRow {
   fetchUrl: string;
   isLargeRow?: boolean;
 }
+const breakpoints = {
+  1378: {
+    slidesPerView: 6,
+    slidesPerGroup: 6,
+  },
+  998: {
+    slidesPerView: 5,
+    slidesPerGroup: 5,
+  },
+  625: {
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+  },
+  0: {
+    slidesPerView: 3,
+    slidesPerGroup: 3,
+  },
+};
 export const Row = memo(({ title, id, fetchUrl, isLargeRow }: IRow) => {
   const { isOk, data, isloading, errorMsg } = useAxios<
     IMovieLists_Response,
     any
   >(fetchUrl, {}, axios);
   const movies = data?.results;
-  const slideGoLeft = useCallback(() => {
-    const scrollContainer = document.getElementById(id);
-    if (scrollContainer) scrollContainer.scrollLeft -= window.innerWidth;
-  }, []);
-  const slideGoRight = useCallback(() => {
-    const scrollContainer = document.getElementById(id);
-    if (scrollContainer) scrollContainer.scrollLeft += window.innerWidth;
-  }, []);
   return isloading ? (
     <Loding />
   ) : (
-    <section className="row">
-      <h2>{title}</h2>
-      <div className="slider">
-        <div className="slider__arrow-left" onClick={slideGoLeft}>
-          <span className="arrow">&lt;</span>
+    <>
+      <section className="row">
+        <h2>{title}</h2>
+        <div className="slider">
+          <div id={id} className="row__posters"></div>
+          <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            loop={true}
+            breakpoints={breakpoints}
+            navigation
+            pagination={{ clickable: true }}
+          >
+            {movies?.map((movie) => (
+              <SwiperSlide key={movie.id}>
+                <ModalImage
+                  movie={movie}
+                  isLargeRow={!!isLargeRow}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-        <div id={id} className="row__posters">
-          {movies?.map((movie) => <ModalImage key={movie.id} movie={movie} isLargeRow={!!isLargeRow} />)}
-        </div>
-        <div className="slider__arrow-right" onClick={slideGoRight}>
-          <span className="arrow">&gt;</span>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 });
 Row.displayName = "Row";
